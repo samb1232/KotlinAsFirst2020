@@ -83,7 +83,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(deg: Int, min: Int, sec: Int): Double = (deg * 3600 + min * 60.0 + sec) / 206265
+fun angleInRadian(deg: Int, min: Int, sec: Int): Double = (deg * 3600 + min * 60.0 + sec) / 206264.806
 
 /**
  * Тривиальная (1 балл)
@@ -132,6 +132,6 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
 fun numberRevert(number: Int): Int {
     val one = number % 10
     val two = (number % 100 - one) / 10
-    val three = (number + two) / 100
+    val three = (number - two) / 100
     return one * 100 + two * 10 + three
 }
