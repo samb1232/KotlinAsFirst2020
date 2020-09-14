@@ -83,7 +83,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(deg: Int, min: Int, sec: Int): Double = (deg * 3600 + min * 60.0 + sec) / 206264.806
+fun angleInRadian(deg: Int, min: Int, sec: Int): Double = (deg * 3600 + min * 60.0 + sec) * PI / 648000
 
 /**
  * Тривиальная (1 балл)
@@ -99,7 +99,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(s
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = ((number % 1000) - (number % 100)) / 100
+fun thirdDigit(number: Int): Int = number.toString()[-3].toInt()
 
 /**
  * Простая (2 балла)
@@ -120,7 +120,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     val coolPersent = (percent / 100.0) + 1
-    return initial * coolPersent * coolPersent * coolPersent
+    return initial * coolPersent.pow(3)
 }
 
 /**
