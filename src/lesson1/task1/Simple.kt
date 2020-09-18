@@ -99,7 +99,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(s
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = number.toString()[-3].toInt()
+fun thirdDigit(number: Int): Int = (number % 1000) / 100
 
 /**
  * Простая (2 балла)
@@ -129,9 +129,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int {
-    val one = number % 10
-    val two = (number % 100 - one) / 10
-    val three = (number - two) / 100
-    return one * 100 + two * 10 + three
-}
+fun numberRevert(number: Int): Int = (number % 10) * 100 + ((number % 100) / 10) * 10 + (number / 100)

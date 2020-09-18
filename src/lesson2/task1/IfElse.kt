@@ -4,6 +4,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
@@ -71,7 +72,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     return when {
         (age % 100) in 11..15 -> "$age лет"
-        age % 10 in listOf(0, 5, 6, 7, 8, 9) -> "$age лет"
+        age % 10 in setOf(0, 5, 6, 7, 8, 9) -> "$age лет"
         age % 10 == 1 -> "$age год"
         else -> "$age года"
     }
@@ -127,12 +128,12 @@ fun whichRookThreatens(
     rookX2: Int, rookY2: Int
 ): Int {
     return when {
-        ((kingX == rookX1) and (kingX == rookX2)) or
-                ((kingY == rookY1) and (kingY == rookY2)) or
-                ((kingX == rookX1) and (kingY == rookY2)) or
-                ((kingY == rookY1) and (kingX == rookX2)) -> 3
-        (kingX == rookX1) or (kingY == rookY1) -> 1
-        (kingX == rookX2) or (kingY == rookY2) -> 2
+        ((kingX == rookX1) && (kingX == rookX2)) ||
+                ((kingY == rookY1) && (kingY == rookY2)) ||
+                ((kingX == rookX1) && (kingY == rookY2)) ||
+                ((kingY == rookY1) && (kingX == rookX2)) -> 3
+        (kingX == rookX1) || (kingY == rookY1) -> 1
+        (kingX == rookX2) || (kingY == rookY2) -> 2
         else -> 0
     }
 }
@@ -161,7 +162,27 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()//{
+//    if ((a + b > c) || (a + c > b) || (b + c > a)) return -1
+//    var gip: Double
+//    var cath: Double
+//    when {
+//        c >= a + b -> {
+//            gip = c * c; cath = a * a + b * b
+//        }
+//        a >= c + b -> {
+//            gip = a * a; cath = c * c + b * b
+//        }
+//        else -> {
+//            gip = b * b; cath = a * a + c * c
+//        }
+//    }
+//    return when {
+//        gip == cath -> 1
+//        gip > cath -> 2
+//        else -> 0
+//    }
+//}
 
 /**
  * Средняя (3 балла)
@@ -171,4 +192,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        b < c || a > d -> -1
+        (a < c && b > d) || (a > c && b < d) -> min(b - a, d - c)
+        b in (c + 1) until d -> b - c
+        a in (c + 1) until d -> d - a
+        else -> 0
+    }
+
+}
