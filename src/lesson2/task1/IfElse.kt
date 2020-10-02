@@ -69,13 +69,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    return when {
-        (age % 100) in 11..15 -> "$age лет"
-        age % 10 in setOf(0, 5, 6, 7, 8, 9) -> "$age лет"
-        age % 10 == 1 -> "$age год"
-        else -> "$age года"
-    }
+fun ageDescription(age: Int): String = when {
+    (age % 100) in 11..15 -> "$age лет"
+    age % 10 in setOf(0, 5, 6, 7, 8, 9) -> "$age лет"
+    age % 10 == 1 -> "$age год"
+    else -> "$age года"
 }
 
 /**
@@ -162,27 +160,27 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()//{
-//    if ((a + b > c) || (a + c > b) || (b + c > a)) return -1
-//    var gip: Double
-//    var cath: Double
-//    when {
-//        c >= a + b -> {
-//            gip = c * c; cath = a * a + b * b
-//        }
-//        a >= c + b -> {
-//            gip = a * a; cath = c * c + b * b
-//        }
-//        else -> {
-//            gip = b * b; cath = a * a + c * c
-//        }
-//    }
-//    return when {
-//        gip == cath -> 1
-//        gip > cath -> 2
-//        else -> 0
-//    }
-//}
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a + b + c - max(max(a, b), c) <= max(max(a, b), c))) return -1
+    val gip: Double
+    val cath: Double
+    when {
+        c == max(max(a, b), c) -> {
+            gip = c * c; cath = a * a + b * b
+        }
+        a == max(max(a, b), c) -> {
+            gip = a * a; cath = c * c + b * b
+        }
+        else -> {
+            gip = b * b; cath = a * a + c * c
+        }
+    }
+    return when {
+        gip == cath -> 1
+        gip > cath -> 2
+        else -> 0
+    }
+}
 
 /**
  * Средняя (3 балла)

@@ -2,7 +2,7 @@
 
 package lesson3.task1
 
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -120,7 +120,17 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var a = m
+    var b = n
+    while (a != 0 && b != 0) {
+        if (a > b) a %= b
+        else b %= a
+    }
+    val gcd = a + b
+
+    return m * n / gcd
+}
 
 /**
  * Средняя (3 балла)
@@ -129,7 +139,16 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var a = m
+    var b = n
+    while (a != 0 && b != 0) {
+        if (a > b) a %= b
+        else b %= a
+    }
+    val gcd = a + b
+    return gcd == 1
+}
 
 /**
  * Средняя (3 балла)
@@ -138,7 +157,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean = (ceil(sqrt(m.toDouble()))).pow(2) <= n.toDouble()
 
 /**
  * Средняя (3 балла)
@@ -202,6 +221,35 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int = TODO()
+//
+//    var num = 1
+//    var digitNum = n
+//
+//    while (true) {
+//        var interimNum = num * num
+//        var digitCount = 0
+//        while (interimNum != 0) {
+//            digitCount++
+//            interimNum /= 10
+//        }
+//
+//        if (digitCount < digitNum) digitNum -= digitCount
+//        else if (digitCount == digitNum) return (num * num) % 10
+//        else {
+//            num *= num
+////            val sus = (10.0.pow(digitNum - 1).toInt())
+////            val b = num % (10.0.pow(digitNum).toInt()) / sus
+////            return b
+//
+//            while (digitNum != 1) {
+//                num /= 10
+//                digitNum--
+//            }
+//            return num % 10
+//        }
+//        num++
+//    }
+//}
 
 /**
  * Сложная (5 баллов)
