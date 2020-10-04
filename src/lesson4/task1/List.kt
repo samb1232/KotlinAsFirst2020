@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 import kotlin.math.*
 
 // Урок 4: списки
@@ -196,7 +197,16 @@ fun polynom(p: List<Int>, x: Int): Int {
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    if (list.isEmpty()) return list
+    val oldList = list.toMutableList()
+    var previous = 0
+    for (i in 1 until list.size) {
+        previous += oldList[i - 1]
+        list[i] += previous
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -205,7 +215,25 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val multipliers = mutableListOf<Int>()
+    var n1 = n
+    var devider = 2
+    while (n1 != 1) {
+        if (n1 % devider == 0) {
+            multipliers.add(devider)
+            n1 /= devider
+        } else {
+            for (i in 2..n1) {
+                if (n1 % i == 0) {
+                    devider = i
+                    break
+                }
+            }
+        }
+    }
+    return multipliers.sorted()
+}
 
 /**
  * Сложная (4 балла)

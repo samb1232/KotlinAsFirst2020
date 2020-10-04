@@ -142,10 +142,7 @@ fun lcm(m: Int, n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var a = m
     var b = n
-    while (a != 0 && b != 0) {
-        if (a > b) a %= b
-        else b %= a
-    }
+    while (a != 0 && b != 0) if (a > b) a %= b else b %= a
     val gcd = a + b
     return gcd == 1
 }
