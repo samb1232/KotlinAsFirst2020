@@ -193,10 +193,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
         b < c || a > d -> -1
-        (a < c && b > d) || (a > c && b < d) -> min(b - a, d - c)
+        (a <= c && b >= d) || (a >= c && b <= d) -> min(b - a, d - c)
         b in (c + 1) until d -> b - c
         a in (c + 1) until d -> d - a
         else -> 0
     }
 
+}
+
+fun main() {
+    print(segmentLength(0, 1, 0, 1))
 }
