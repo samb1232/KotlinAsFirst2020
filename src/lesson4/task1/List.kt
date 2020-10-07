@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.isPrime
 import kotlin.math.*
 
 // Урок 4: списки
@@ -134,15 +133,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    var sum = 0.0
-    var count = 0
-    for (i in list) {
-        sum += i
-        count++
-    }
-    return if (count == 0) 0.0 else sum / count
-}
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
 
 /**
  * Средняя (3 балла)
@@ -181,8 +172,8 @@ fun times(a: List<Int>, b: List<Int>): Int {
 fun polynom(p: List<Int>, x: Int): Int {
     var px = 0
     if (p.isEmpty()) return px
-    for (i in p.indices) {
-        px += p[i] * x.toDouble().pow(i).toInt()
+    for ((i, a) in p.withIndex()) {
+        px += a * x.toDouble().pow(i).toInt()
     }
     return px
 }
@@ -199,7 +190,7 @@ fun polynom(p: List<Int>, x: Int): Int {
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
     if (list.isEmpty()) return list
-    val oldList = list.toMutableList()
+    val oldList = list.toList()
     var previous = 0
     for (i in 1 until list.size) {
         previous += oldList[i - 1]
@@ -218,15 +209,15 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
 fun factorize(n: Int): List<Int> {
     val multipliers = mutableListOf<Int>()
     var n1 = n
-    var devider = 2
+    var divider = 2
     while (n1 != 1) {
-        if (n1 % devider == 0) {
-            multipliers.add(devider)
-            n1 /= devider
+        if (n1 % divider == 0) {
+            multipliers.add(divider)
+            n1 /= divider
         } else {
-            for (i in 2..n1) {
+            for (i in divider + 1..n1) {
                 if (n1 % i == 0) {
-                    devider = i
+                    divider = i
                     break
                 }
             }
