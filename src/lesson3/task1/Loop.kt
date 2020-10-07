@@ -1,8 +1,10 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("Artem Denisov")
 
 package lesson3.task1
 
-import kotlin.math.*
+import kotlin.math.ceil
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -72,7 +74,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var n1 = n
+    var count = 0
+    do {
+        n1 /= 10
+        count++
+    } while (n1 != 0)
+    return count
+}
 
 /**
  * Простая (2 балла)
@@ -80,8 +90,18 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
-
+fun fib(n: Int): Int {
+    if (n <= 2) return 1
+    var x = 1
+    var y = 1
+    var ans = 0
+    for (i in 3..n) {
+        ans = x + y
+        x = y
+        y = ans
+    }
+    return ans
+}
 /**
  * Простая (2 балла)
  *
@@ -112,7 +132,16 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var count = 0
+    var x1 = x
+    while (x1 != 1) {
+        if (x1 % 2 == 0) x1 /= 2
+        else x1 = 3 * x1 + 1
+        count++
+    }
+    return count
+}
 
 /**
  * Средняя (3 балла)
@@ -130,7 +159,7 @@ fun gcd(m: Int, n: Int): Int {
     return (a + b)
 }
 
-fun lcm(m: Int, n: Int): Int = m * n / gcd(m,n)
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Средняя (3 балла)
@@ -139,13 +168,8 @@ fun lcm(m: Int, n: Int): Int = m * n / gcd(m,n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var a = m
-    var b = n
-    while (a != 0 && b != 0) if (a > b) a %= b else b %= a
-    val gcd = a + b
-    return gcd == 1
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
+
 
 /**
  * Средняя (3 балла)
@@ -184,7 +208,15 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var n1 = n
+    while (n1 != 0) {
+        if ((n1 % 10) == (n % 10)) {
+            return false
+        } else n1 /= 10
+    }
+    return true
+}
 
 /**
  * Средняя (4 балла)
@@ -218,35 +250,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int = TODO()
-//
-//    var num = 1
-//    var digitNum = n
-//
-//    while (true) {
-//        var interimNum = num * num
-//        var digitCount = 0
-//        while (interimNum != 0) {
-//            digitCount++
-//            interimNum /= 10
-//        }
-//
-//        if (digitCount < digitNum) digitNum -= digitCount
-//        else if (digitCount == digitNum) return (num * num) % 10
-//        else {
-//            num *= num
-////            val sus = (10.0.pow(digitNum - 1).toInt())
-////            val b = num % (10.0.pow(digitNum).toInt()) / sus
-////            return b
-//
-//            while (digitNum != 1) {
-//                num /= 10
-//                digitNum--
-//            }
-//            return num % 10
-//        }
-//        num++
-//    }
-//}
+
 
 /**
  * Сложная (5 баллов)

@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("Artem Denisov")
 
 package lesson2.task1
 
