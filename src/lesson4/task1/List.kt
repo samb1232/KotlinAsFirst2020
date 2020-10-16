@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.*
+import lesson3.task1.minDivisor
 
 // Урок 4: списки
 // Максимальное количество баллов = 12
@@ -170,12 +171,12 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    var px = 0
-    if (p.isEmpty()) return px
+    var px = 0.0
+    if (p.isEmpty()) return px.toInt()
     for ((i, a) in p.withIndex()) {
-        px += a * x.toDouble().pow(i).toInt()
+        px += a * x.toDouble().pow(i)
     }
-    return px
+    return px.toInt()
 }
 
 /**
@@ -190,11 +191,8 @@ fun polynom(p: List<Int>, x: Int): Int {
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
     if (list.isEmpty()) return list
-    val oldList = list.toList()
-    var previous = 0
     for (i in 1 until list.size) {
-        previous += oldList[i - 1]
-        list[i] += previous
+        list[i] += list[i - 1]
     }
     return list
 }
@@ -233,7 +231,18 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var n1 = n
+    var num: Int
+    var retString = ""
+    while (n1 != 1) {
+        num = minDivisor(n1) // из 3 урока
+        retString += "$num"
+        n1 /= num
+        if (n1 != 1) retString += "*"
+    }
+    return retString
+}
 
 /**
  * Средняя (3 балла)

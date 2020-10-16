@@ -102,19 +102,30 @@ fun fib(n: Int): Int {
     }
     return ans
 }
+
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..n + 1) {
+        if (n % i == 0) return i
+    }
+    return n
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for (i in (n - 1) downTo 1) {
+        if (n % i == 0) return i
+    }
+    return n
+}
 
 /**
  * Простая (2 балла)
@@ -210,12 +221,13 @@ fun isPalindrome(n: Int): Boolean = TODO()
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var n1 = n
-    while (n1 != 0) {
-        if ((n1 % 10) == (n % 10)) {
-            return false
-        } else n1 /= 10
-    }
-    return true
+    do {
+        if ((n1 % 10) != (n % 10)) {
+            return true
+        }
+        n1 /= 10
+    } while (n1 != 0)
+    return false
 }
 
 /**

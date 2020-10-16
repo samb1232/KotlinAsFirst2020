@@ -89,26 +89,16 @@ fun timeForHalfWay(
     t3: Double, v3: Double
 ): Double {
     var s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    var t = 0.0
-    if (t1 * v1 < s) {
-        t += t1
-        s -= t1 * v1
-    } else {
-        return s / v1
+    var t0 = 0.0
+    var t = listOf(t1, t2, t3)
+    var v = listOf(v1, v2, v3)
+    for (i in 0..v.size) {
+        if (t[i] * v[i] < s) {
+            t0 += t[i]
+            s -= t[i] * v[i]
+        } else return t0 + (s / v[i])
     }
-    if (t2 * v2 < s) {
-        t += t2
-        s -= t2 * v2
-    } else {
-        return t + (s / v2)
-    }
-    if (t3 * v3 < s) {
-        t += t3
-        s -= t3 * v3
-    } else {
-        return t + (s / v3)
-    }
-    return t
+    return t0
 }
 
 /**
