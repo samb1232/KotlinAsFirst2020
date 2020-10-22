@@ -5,6 +5,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import kotlin.math.*
 import lesson3.task1.minDivisor
+import java.lang.StringBuilder
 
 // Урок 4: списки
 // Максимальное количество баллов = 12
@@ -172,9 +173,10 @@ fun times(a: List<Int>, b: List<Int>): Int {
  */
 fun polynom(p: List<Int>, x: Int): Int {
     var px = 0.0
+    val x1 = x.toDouble()
     if (p.isEmpty()) return px.toInt()
     for ((i, a) in p.withIndex()) {
-        px += a * x.toDouble().pow(i)
+        px += a * x1.pow(i)
     }
     return px.toInt()
 }
@@ -231,17 +233,18 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
+
 fun factorizeToString(n: Int): String {
     var n1 = n
     var num: Int
-    var retString = ""
+    val retString = StringBuilder()
     while (n1 != 1) {
         num = minDivisor(n1) // из 3 урока
-        retString += "$num"
+        retString.append("$num")
         n1 /= num
-        if (n1 != 1) retString += "*"
+        retString.append("*")
     }
-    return retString
+    return retString.toString().dropLast(1)
 }
 
 /**
