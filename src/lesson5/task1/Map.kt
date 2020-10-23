@@ -98,6 +98,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
 
+
 /**
  * Простая (2 балла)
  *
@@ -277,7 +278,31 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    var ret: Pair<Int, Int> = Pair(-1, -1)
+    val remainders = mutableListOf(-1)
+    for (i in 1..number) remainders.add(-1)
+
+    for ((i, num) in list.withIndex()) {
+        if (num > number) continue
+        if (num * 2 == number) {
+            if (remainders[num] == -1) {
+                remainders[num] = i
+                continue
+            }
+            ret = Pair(remainders[num], i)
+            break
+
+        }
+        if (remainders[num] == -1) remainders[num] = i
+        if (remainders[number - num] == -1) continue
+        ret = Pair(remainders[number - num], remainders[num])
+        break
+    }
+
+    return ret
+}
+
 
 /**
  * Очень сложная (8 баллов)
@@ -301,3 +326,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+//Берём самый дорогой предмет и пытаемся впихнуть ещё что-нибудь, записываем это в макс стоимость
+//Затем берём предмет следующий после самого дорогого и делаем то же самое
+//И так далее
