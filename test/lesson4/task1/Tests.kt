@@ -167,7 +167,7 @@ class Tests {
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
     }
 
-    @Test
+    @Test   
     @Tag("4")
     fun factorizeToString() {
         assertEquals("2", factorizeToString(2))

@@ -306,7 +306,7 @@ fun roman(n: Int): String {
         1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC",
         50 to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I"
     )
-    var result = StringBuilder()
+    val result = StringBuilder()
 
     for ((i, j) in translate) {
         while (n >= i) {
@@ -316,6 +316,7 @@ fun roman(n: Int): String {
     }
     return result.toString()
 }
+
 /**
  * Очень сложная (7 баллов)
  *
