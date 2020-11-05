@@ -44,23 +44,23 @@ fun timeSecondsToStr(seconds: Int): String {
     return String.format("%02d:%02d:%02d", hour, minute, second)
 }
 
-/**
- * Пример: консольный ввод
- */
-fun main() {
-    println("Введите время в формате ЧЧ:ММ:СС")
-    val line = readLine()
-    if (line != null) {
-        val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
-            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        } else {
-            println("Прошло секунд с начала суток: $seconds")
-        }
-    } else {
-        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-    }
-}
+///**
+// * Пример: консольный ввод
+// */
+//fun main() {
+//    println("Введите время в формате ЧЧ:ММ:СС")
+//    val line = readLine()
+//    if (line != null) {
+//        val seconds = timeStrToSeconds(line)
+//        if (seconds == -1) {
+//            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
+//        } else {
+//            println("Прошло секунд с начала суток: $seconds")
+//        }
+//    } else {
+//        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
+//    }
+//}
 
 
 /**
@@ -162,7 +162,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description == "") return ""
+    var item: List<String>
+    val meh = description.split("; ")
+    var maxim = 0.0
+    var retItem = ""
+    for (i in meh) {
+        item = i.split(" ")
+        if (item[1].toDouble() >= maxim) {
+            maxim = item[1].toDouble()
+            retItem = item[0]
+        }
+    }
+    return retItem
+}
 
 /**
  * Сложная (6 баллов)
