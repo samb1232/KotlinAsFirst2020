@@ -3,9 +3,9 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.*
 import lesson3.task1.minDivisor
-import java.lang.StringBuilder
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 // Урок 4: списки
 // Максимальное количество баллов = 12
@@ -324,4 +324,73 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val ans = mutableListOf<String>()
+
+    val hundreds = listOf(
+        "", "сто", "двести", "триста", "четыреста",
+        "пятьсот", "шестьсот", "семьсот", "восемсот", "девятьсот"
+    )
+    val decades = listOf(
+        "", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят",
+        "семьдесят", "восемдесят", "девяносто"
+    )
+    val unitsForThousands = listOf(
+        "", "одна", "две", "три", "четыре", "пять", "шесть",
+        "семь", "восемь",
+        "девять", "десять"
+    )
+    val units = listOf(
+        "", "один", "два", "три", "четыре", "пять", "шесть",
+        "семь", "восемь",
+        "девять", "десять"
+    )
+    val exceptionUnitsForThousands = listOf(
+        "", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять",
+        "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семьнадцать",
+        "восемнадцать", "девятнадцать"
+    )
+    val exceptionUnits = listOf(
+        "", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять",
+        "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семьнадцать",
+        "восемнадцать", "девятнадцать"
+    )
+    val inclinations = listOf("а", "и", "")
+
+    val firstHalf = n / 1000
+    val lastHalf = n % 1000
+
+    if (firstHalf != 0) {
+        if (firstHalf % 100 in 1..19) {
+            ans.add(hundreds[firstHalf / 100])
+            ans.add(exceptionUnitsForThousands[firstHalf % 100])
+            ans.add("тысяч" + inclinations[declination(firstHalf % 100)])
+        } else {
+            ans.add(hundreds[firstHalf / 100])
+            ans.add(decades[firstHalf / 10 % 10])
+            ans.add(unitsForThousands[firstHalf % 10])
+            ans.add("тысяч" + inclinations[declination(firstHalf % 10)])
+        }
+    }
+    if (lastHalf % 100 in 1..19) {
+        ans.add(hundreds[lastHalf / 100])
+        ans.add(exceptionUnits[lastHalf % 100])
+    } else {
+        ans.add(hundreds[lastHalf / 100])
+        ans.add(decades[lastHalf / 10 % 10])
+        ans.add(units[lastHalf % 10])
+    }
+    while ("" in ans) ans.remove("")
+
+    return ans.joinToString(separator = " ")
+}
+
+fun declination(num: Int): Int {
+    val n = num % 100
+    return when {
+        n in 5..19 -> 2
+        n % 10 == 1 -> 0
+        n % 10 in 2..4 -> 1
+        else -> 2
+    }
+}
