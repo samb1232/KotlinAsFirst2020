@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.Pair as Pair
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -280,6 +282,8 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     var ret = (-1 to -1)
+    if (list.size <= 1) return ret
+
     val remainders = MutableList(number) { -1 }
 
     for ((i, num) in list.withIndex()) {
@@ -333,7 +337,7 @@ fun maxCostItem(
     var maxCost = 0
     var mExTr = "" // most expensive treasure
     for ((name, properties) in treasures) {
-        if (properties.first <= capacity && properties.second > maxCost && name !in exceptNames) {
+        if (name !in exceptNames && properties.first <= capacity && properties.second >= maxCost) {
             maxCost = properties.second
             mExTr = name
         }
@@ -353,28 +357,37 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var capLeft: Int
     var mex: Pair<String, Pair<Int, Int>?>?
 
-    while (maxCostItem(treasures, bExceptList, capacity) != null) {
+    var extraMaxTreasureList = setOf<String>()
+    var extraMaxTreasureValue = 0
 
-        exceptList = bExceptList
-        treasureList = mutableSetOf()
-        capLeft = capacity
-        treasureValue = 0
+    for (i in treasures.keys) {
+        while (maxCostItem(treasures, bExceptList, capacity) != null) {
 
-        while (true) {
-            mex = maxCostItem(treasures, exceptList, capLeft)
-            if (mex == null) break
-            exceptList.add(mex.first)
-            treasureList.add(mex.first)
-            treasureValue += mex.second!!.second
-            capLeft -= mex.second!!.first
+            exceptList = bExceptList
+            treasureList = mutableSetOf()
+            capLeft = capacity
+            treasureValue = 0
+
+            while (true) {
+                mex = maxCostItem(treasures, exceptList, capLeft)
+                if (mex == null) break
+                exceptList.add(mex.first)
+                treasureList.add(mex.first)
+                treasureValue += mex.second!!.second
+                capLeft -= mex.second!!.first
+            }
+            if (treasureValue >= maxTreasureValue) {
+                maxTreasureValue = treasureValue
+                maxTreasureList = treasureList
+            }
+            if (maxCostItem(treasures, bExceptList, capacity) != null) {
+                bExceptList.add(maxCostItem(treasures, bExceptList, capacity)!!.first)
+            }
         }
-        if (treasureValue >= maxTreasureValue) {
-            maxTreasureValue = treasureValue
-            maxTreasureList = treasureList
-        }
-        if (maxCostItem(treasures, bExceptList, capacity) != null) {
-            bExceptList.add(maxCostItem(treasures, bExceptList, capacity)!!.first)
+        if (maxTreasureValue >= extraMaxTreasureValue) {
+            extraMaxTreasureValue = maxTreasureValue
+            extraMaxTreasureList = maxTreasureList
         }
     }
-    return maxTreasureList
+    return extraMaxTreasureList
 }
