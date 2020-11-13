@@ -300,7 +300,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val remainders = MutableList(number) { -1 }
 
     for ((i, num) in list.withIndex()) {
-        if (num > number) continue
+        if (num > number || num == 0) continue
         if (num * 2 == number) {
             if (remainders[num] == -1) {
                 remainders[num] = i
@@ -397,9 +397,4 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
 
     return maxTreasureList
-}
-
-fun main() {
-    println(bagPacking(mapOf("0" to (276 to 457), "1" to (149 to 2), "2" to (1 to 1), "3" to (124 to 456)), 292))
-//    А должен выводить 3, 2, 1
 }
