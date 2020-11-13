@@ -282,7 +282,20 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     var ret = (-1 to -1)
-    if (list.size <= 1) return ret
+    if (list.size < 2) return ret
+
+    if (number == 0) {
+        var count = 0
+        var i1: Int
+        for ((num, i) in list.withIndex()) {
+            if (i == 0) {
+                count += 1
+                i1 = num
+                if (count == 2) return (i to i1)
+            }
+        }
+        return ret
+    }
 
     val remainders = MutableList(number) { -1 }
 
@@ -360,7 +373,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
 
     while (maxCostItem(treasures, bExceptList, capacity) != null) {
 
-        exceptList = bExceptList
+        exceptList = bExceptList.toMutableSet()
         treasureList = mutableSetOf()
         capLeft = capacity
         treasureValue = 0
@@ -380,7 +393,13 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         if (maxCostItem(treasures, bExceptList, capacity) != null) {
             bExceptList.add(maxCostItem(treasures, bExceptList, capacity)!!.first)
         }
+
     }
 
     return maxTreasureList
+}
+
+fun main() {
+    println(bagPacking(mapOf("0" to (276 to 457), "1" to (149 to 2), "2" to (1 to 1), "3" to (124 to 456)), 292))
+//    А должен выводить 3, 2, 1
 }
