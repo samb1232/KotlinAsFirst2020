@@ -282,56 +282,15 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
+
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    var ret = (-1 to -1)
-    if (list.size < 2) return ret
-
-    if (number == 0) {
-        var count = 0
-        var i1 = 0
-        for ((index, num) in list.withIndex()) {
-            if (num == 0) {
-                count += 1
-                if (count == 2) return (i1 to index)
-                i1 = index
-            }
-        }
-        return ret
+    val remainders = mutableMapOf<Int, Int>()
+    for (i in list.indices) {
+        if (list[i] !in remainders) remainders[number - list[i]] = i
+        else return Pair(remainders.getOrDefault(list[i], i), i)
     }
-
-    if (number == 1) {
-        var check1 = -1
-        var check0 = -1
-        for ((index, num) in list.withIndex()) {
-            if (num == 0) check0 = index
-            else if (num == 1) check1 = index
-            if (check0 != -1 && check1 != -1) return (min(check0, check1) to max(check0, check1))
-        }
-        return ret
-    }
-
-    val remainders = MutableList(number) { -1 }
-
-    for ((i, num) in list.withIndex()) {
-        if (num > number || num == 0) continue
-        if (num * 2 == number) {
-            if (remainders[num] == -1) {
-                remainders[num] = i
-                continue
-            }
-            ret = Pair(remainders[num], i)
-            break
-
-        }
-        if (remainders[num] == -1) remainders[num] = i
-        if (remainders[number - num] == -1) continue
-        ret = Pair(remainders[number - num], remainders[num])
-        break
-    }
-
-    return ret
+    return Pair(-1, -1)
 }
-
 
 /**
  * Очень сложная (8 баллов)
@@ -361,9 +320,10 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     val treasKeys = treasures.keys.toList()
 
     var localTreasVariations: MutableList<String>
-    for (i in 0..treasures.size) {
-        localTreasVariations = mutableListOf()
-        for (j in i until treasures.size) {
+    for (i in 0..treasures.size - 1) {
+        localTreasVariations = mutableListOf(treasKeys[i])
+        for (j in 0 until treasures.size) {
+            if (j == i) continue
             localTreasVariations.add(treasKeys[j])
             treasVariations.add(localTreasVariations.toMutableList())
         }
@@ -384,4 +344,27 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         }
     }
     return ret
+}
+
+fun main() {
+    println(
+        bagPacking(
+            mapOf(
+                "0" to (1 to 1),
+                "1" to (1 to 1),
+                "2" to (1 to 1),
+                "3" to (1 to 1),
+                "4" to (1 to 1),
+                "5" to (1 to 1),
+                "6" to (1 to 1),
+                "7" to (1 to 1),
+                "8" to (1 to 1),
+                "9" to (1 to 1),
+                "10" to (2 to 1),
+                "11" to (1 to 2),
+                "12" to (2 to 1),
+                "13" to (1 to 1)
+            ), 2
+        )
+    )
 }
