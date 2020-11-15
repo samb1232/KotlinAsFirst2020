@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.Pair as Pair
 
 // Урок 5: ассоциативные массивы и множества
@@ -293,6 +295,17 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
                 if (count == 2) return (i1 to index)
                 i1 = index
             }
+        }
+        return ret
+    }
+
+    if (number == 1) {
+        var check1 = -1
+        var check0 = -1
+        for ((index, num) in list.withIndex()) {
+            if (num == 0) check0 = index
+            else if (num == 1) check1 = index
+            if (check0 != -1 && check1 != -1) return (min(check0, check1) to max(check0, check1))
         }
         return ret
     }
