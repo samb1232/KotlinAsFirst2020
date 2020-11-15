@@ -286,12 +286,12 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 
     if (number == 0) {
         var count = 0
-        var i1: Int
-        for ((num, i) in list.withIndex()) {
-            if (i == 0) {
+        var i1 = 0
+        for ((index, num) in list.withIndex()) {
+            if (num == 0) {
                 count += 1
-                i1 = num
-                if (count == 2) return (i to i1)
+                if (count == 2) return (i1 to index)
+                i1 = index
             }
         }
         return ret
@@ -342,59 +342,93 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 
-fun maxCostItem(
-    treasures: Map<String, Pair<Int, Int>>,
-    exceptNames: MutableSet<String>,
-    capacity: Int
-): Pair<String, Pair<Int, Int>?>? {
-    var maxCost = 0
-    var mExTr = "" // most expensive treasure
-    for ((name, properties) in treasures) {
-        if (name !in exceptNames && properties.first <= capacity && properties.second >= maxCost) {
-            maxCost = properties.second
-            mExTr = name
-        }
-    }
-    if (mExTr == "") return null
-    return mExTr to treasures[mExTr]
-}
-
-
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    var exceptList: MutableSet<String>
-    var treasureList: MutableSet<String>
-    val bExceptList = mutableSetOf<String>()
-    var maxTreasureList = setOf<String>()
-    var maxTreasureValue = 0
-    var treasureValue: Int
-    var capLeft: Int
-    var mex: Pair<String, Pair<Int, Int>?>?
-
-
-    while (maxCostItem(treasures, bExceptList, capacity) != null) {
-
-        exceptList = bExceptList.toMutableSet()
-        treasureList = mutableSetOf()
-        capLeft = capacity
-        treasureValue = 0
-
-        while (true) {
-            mex = maxCostItem(treasures, exceptList, capLeft)
-            if (mex == null) break
-            exceptList.add(mex.first)
-            treasureList.add(mex.first)
-            treasureValue += mex.second!!.second
-            capLeft -= mex.second!!.first
-        }
-        if (treasureValue >= maxTreasureValue) {
-            maxTreasureValue = treasureValue
-            maxTreasureList = treasureList
-        }
-        if (maxCostItem(treasures, bExceptList, capacity) != null) {
-            bExceptList.add(maxCostItem(treasures, bExceptList, capacity)!!.first)
-        }
-
-    }
-
-    return maxTreasureList
-}
+//fun maxCostItem(
+//    treasures: Map<String, Pair<Int, Int>>,
+//    exceptNames: MutableSet<String>,
+//    capacity: Int
+//): Pair<String, Pair<Int, Int>?>? {
+//    var maxCost = 0
+//    var mExTr = "" // most expensive treasure
+//    for ((name, properties) in treasures) {
+//        if (name !in exceptNames && properties.first <= capacity && properties.second >= maxCost) {
+//            maxCost = properties.second
+//            mExTr = name
+//        }
+//    }
+//    if (mExTr == "") return null
+//    return mExTr to treasures[mExTr]
+//}
+//
+//
+//fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+//    var exceptList: MutableSet<String>
+//    var treasureList: MutableSet<String>
+//    val bExceptList = mutableSetOf<String>()
+//    var maxTreasureList = setOf<String>()
+//    var maxTreasureValue = 0
+//    var treasureValue: Int
+//    var capLeft: Int
+//    var mex: Pair<String, Pair<Int, Int>?>?
+//
+//
+//    while (maxCostItem(treasures, bExceptList, capacity) != null) {
+//
+//        exceptList = bExceptList.toMutableSet()
+//        treasureList = mutableSetOf()
+//        capLeft = capacity
+//        treasureValue = 0
+//
+//        while (true) {
+//            mex = maxCostItem(treasures, exceptList, capLeft)
+//            if (mex == null) break
+//            exceptList.add(mex.first)
+//            treasureList.add(mex.first)
+//            treasureValue += mex.second!!.second
+//            capLeft -= mex.second!!.first
+//        }
+//        if (treasureValue >= maxTreasureValue) {
+//            maxTreasureValue = treasureValue
+//            maxTreasureList = treasureList.toSet()
+//        }
+//        if (maxCostItem(treasures, bExceptList, capacity) != null) {
+//            bExceptList.add(maxCostItem(treasures, bExceptList, capacity)!!.first)
+//        }
+//
+//    }
+//
+//    return maxTreasureList
+//}
+//
+//fun bagPacking2(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+//    val treasVariations = mutableListOf<MutableList<String>>()
+//    val treasKeys = treasures.keys.toList()
+//
+//    var localTreasVariations: MutableList<String>
+//    for (i in 0..treasures.size) {
+//        localTreasVariations = mutableListOf()
+//        for (j in i until treasures.size) {
+//            localTreasVariations.add(treasKeys[j])
+//            treasVariations.add(localTreasVariations.toMutableList())
+//        }
+//    }
+//    println(treasKeys)
+//
+//    var maxCost = 0
+//    var ret = setOf<String>()
+//    for (b in treasKeys) {
+//        var cap = 0
+//        var costAll = 0
+//        for (name in b) {
+//            cap += treasures[name.toString()]!!.first
+//            costAll += treasures[name.toString()]!!.second
+//        }
+//        if (cap <= capacity && costAll >= maxCost) {
+//            maxCost = costAll
+//        }
+//    }
+//    return setOf("fwgsvxfgvc")
+//}
+//
+//fun main() {
+//    bagPacking2(mapOf("zero" to (276 to 457), "one" to (149 to 2), "two" to (1 to 1), "three" to (124 to 456)), 292)
+//}
