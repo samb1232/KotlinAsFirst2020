@@ -322,6 +322,10 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var localTreasVariations: MutableList<String>
     for (i in 0..treasures.size - 1) {
         localTreasVariations = mutableListOf(treasKeys[i])
+        if (treasures.size < 2) {
+            treasVariations.add(localTreasVariations.toMutableList())
+            continue
+        }
         for (j in 0 until treasures.size) {
             if (j == i) continue
             localTreasVariations.add(treasKeys[j])
@@ -344,27 +348,4 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         }
     }
     return ret
-}
-
-fun main() {
-    println(
-        bagPacking(
-            mapOf(
-                "0" to (1 to 1),
-                "1" to (1 to 1),
-                "2" to (1 to 1),
-                "3" to (1 to 1),
-                "4" to (1 to 1),
-                "5" to (1 to 1),
-                "6" to (1 to 1),
-                "7" to (1 to 1),
-                "8" to (1 to 1),
-                "9" to (1 to 1),
-                "10" to (2 to 1),
-                "11" to (1 to 2),
-                "12" to (2 to 1),
-                "13" to (1 to 1)
-            ), 2
-        )
-    )
 }
