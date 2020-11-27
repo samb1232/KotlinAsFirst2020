@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.Pair as Pair
 
 // Урок 5: ассоциативные массивы и множества
@@ -263,7 +261,33 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *          "GoodGnome" to setOf()
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val ret = mutableMapOf<String, Set<String>>()
+    val contactFriends = friends.keys
+    for (friend in contactFriends) {
+        ret[friend] = setOf()
+
+        val checkFriends = mutableMapOf<String, Int>()
+        for (i in contactFriends) checkFriends[i] = 0
+        val queue = ArrayDeque<String>()
+        queue.add(friend)
+        while (queue.isNotEmpty()) {
+            val next = queue.first()
+            queue.remove(next)
+            checkFriends[next] = 1
+
+            for (newFriend in friends.getOrDefault(next, setOf())) {
+                if (newFriend != friend) ret[friend] = ret[friend]!! + newFriend
+                when {
+                    newFriend !in contactFriends -> ret[newFriend] = setOf()
+                    checkFriends[newFriend] != 1 -> queue.add(newFriend)
+                }
+            }
+        }
+    }
+    return ret
+}
 
 /**
  * Сложная (6 баллов)
@@ -315,37 +339,37 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 
 
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    val treasVariations = mutableListOf<MutableList<String>>()
-    val treasKeys = treasures.keys.toList()
-
-    var localTreasVariations: MutableList<String>
-    for (i in 0..treasures.size - 1) {
-        localTreasVariations = mutableListOf(treasKeys[i])
-        if (treasures.size < 2) {
-            treasVariations.add(localTreasVariations.toMutableList())
-            continue
-        }
-        for (j in 0 until treasures.size) {
-            if (j == i) continue
-            localTreasVariations.add(treasKeys[j])
-            treasVariations.add(localTreasVariations.toMutableList())
-        }
-    }
-
-    var maxCost = 0
-    var ret = setOf<String>()
-    for (b in treasVariations) {
-        var cap = 0
-        var costAll = 0
-        for (name in b) {
-            cap += treasures[name]!!.first
-            costAll += treasures[name]!!.second
-        }
-        if (cap <= capacity && costAll >= maxCost) {
-            maxCost = costAll
-            ret = b.toSet()
-        }
-    }
-    return ret
-}
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String>  = TODO()
+//    val treasVariations = mutableListOf<MutableList<String>>()
+//    val treasKeys = treasures.keys.toList()
+//
+//    var localTreasVariations: MutableList<String>
+//    for (i in 0..treasures.size - 1) {
+//        localTreasVariations = mutableListOf(treasKeys[i])
+//        if (treasures.size < 2) {
+//            treasVariations.add(localTreasVariations.toMutableList())
+//            continue
+//        }
+//        for (j in 0 until treasures.size) {
+//            if (j == i) continue
+//            localTreasVariations.add(treasKeys[j])
+//            treasVariations.add(localTreasVariations.toMutableList())
+//        }
+//    }
+//
+//    var maxCost = 0
+//    var ret = setOf<String>()
+//    for (b in treasVariations) {
+//        var cap = 0
+//        var costAll = 0
+//        for (name in b) {
+//            cap += (treasures[name] ?: error("")).first
+//            costAll += (treasures[name] ?: error("")).second
+//        }
+//        if (cap <= capacity && costAll >= maxCost) {
+//            maxCost = costAll
+//            ret = b.toSet()
+//        }
+//    }
+//    return ret
+//}
