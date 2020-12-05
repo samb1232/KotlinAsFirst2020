@@ -171,17 +171,12 @@ fun mostExpensive(description: String): String {
     var retItem = ""
     for (i in meh) {
         item = i.split(" ")
-        val l = item[1].toDouble()
         if (item[1].toDouble() >= maxim) {
             maxim = item[1].toDouble()
             retItem = item[0]
         }
     }
     return retItem
-}
-
-fun main() {
-    println(mostExpensive("а 0"))
 }
 
 /**
@@ -197,8 +192,7 @@ fun main() {
  */
 fun fromRoman(roman: String): Int {
     val reg = "^M{0,3}(CM)?D?(CD)?C{0,3}(XC)?L?(XL)?X{0,3}(IX)?V?(IV)?I{0,3}\$".toRegex()
-    if (roman == "") return 0
-    if (!reg.matches(roman)) return -1
+    if (!reg.matches(roman) || roman == "") return -1
     val digits = mapOf(
         "MMMM" to 4000,
         "MMM" to 3000,
