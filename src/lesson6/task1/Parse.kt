@@ -163,7 +163,8 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String {
-    if (description == "") return ""
+    val reg = "([А-Я][а-яё]*\\s\\d+\\.?\\d*;\\s)*[А-Я][а-яё]*\\s\\d+\\.\\d\$".toRegex()
+    if (!reg.matches(description)) return ""
     var item: List<String>
     val meh = description.split("; ")
     var maxim = 0.0
@@ -189,7 +190,52 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val reg = "^M{0,3}(CM)?D?(CD)?C{0,3}(XC)?L?(XL)?X{0,3}(IX)?V?(IV)?I{0,3}\$".toRegex()
+    if (!reg.matches(roman)) return -1
+    val digits = mapOf(
+        "MMMM" to 4000,
+        "MMM" to 3000,
+        "MM" to 2000,
+        "CM" to 900,
+        "M" to 1000,
+        "DCCC" to 800,
+        "DCC" to 700,
+        "DC" to 600,
+        "CD" to 400,
+        "D" to 500,
+        "CCC" to 300,
+        "CC" to 200,
+        "XC" to 90,
+        "C" to 100,
+        "LXXX" to 80,
+        "LXX" to 70,
+        "LX" to 60,
+        "XL" to 40,
+        "L" to 50,
+        "XXX" to 30,
+        "XX" to 20,
+        "IX" to 9,
+        "X" to 10,
+        "VIII" to 8,
+        "VII" to 7,
+        "VI" to 6,
+        "IV" to 4,
+        "V" to 5,
+        "III" to 3,
+        "II" to 2,
+        "I" to 1
+    )
+    var roman = roman
+    var result = 0
+    for ((rom, num) in digits) {
+        if (rom in roman) {
+            result += num
+            roman = roman.drop(rom.length)
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная (7 баллов)
