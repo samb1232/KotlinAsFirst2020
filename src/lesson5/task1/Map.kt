@@ -211,7 +211,15 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val result = mutableMapOf<String, Int>()
+    var res: Int
+    for (letter in list) {
+        res = result[letter] ?: 0
+        result[letter] = ++res
+    }
+    return result.filter { it.value > 1 }
+}
 
 /**
  * Средняя (3 балла)
@@ -340,36 +348,3 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
-//    val treasVariations = mutableListOf<MutableList<String>>()
-//    val treasKeys = treasures.keys.toList()
-//
-//    var localTreasVariations: MutableList<String>
-//    for (i in 0..treasures.size - 1) {
-//        localTreasVariations = mutableListOf(treasKeys[i])
-//        if (treasures.size < 2) {
-//            treasVariations.add(localTreasVariations.toMutableList())
-//            continue
-//        }
-//        for (j in 0 until treasures.size) {
-//            if (j == i) continue
-//            localTreasVariations.add(treasKeys[j])
-//            treasVariations.add(localTreasVariations.toMutableList())
-//        }
-//    }
-//
-//    var maxCost = 0
-//    var ret = setOf<String>()
-//    for (b in treasVariations) {
-//        var cap = 0
-//        var costAll = 0
-//        for (name in b) {
-//            cap += (treasures[name] ?: error("")).first
-//            costAll += (treasures[name] ?: error("")).second
-//        }
-//        if (cap <= capacity && costAll >= maxCost) {
-//            maxCost = costAll
-//            ret = b.toSet()
-//        }
-//    }
-//    return ret
-//}
