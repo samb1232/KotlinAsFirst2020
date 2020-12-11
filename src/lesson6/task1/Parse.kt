@@ -195,6 +195,7 @@ fun mostExpensive(description: String): String {
 fun fromRoman(roman: String): Int {
     val reg = "^M{0,3}(CM)?D?(CD)?C{0,3}(XC)?L?(XL)?X{0,3}(IX)?V?(IV)?I{0,3}\$".toRegex()
     if (!reg.matches(roman) || roman == "") return -1
+
     val digits = mapOf(
         "MMMM" to 4000,
         "MMM" to 3000,
