@@ -63,7 +63,19 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    TODO()
+    val inputFile = File(inputName)
+    val outputFile = File(outputName).bufferedWriter()
+    for (line in inputFile.readLines()) {
+        if (line.isNotEmpty()) {
+            if (line[0] !in "_") {
+                outputFile.write(line)
+                outputFile.newLine()
+            }
+        } else {
+            outputFile.newLine()
+        }
+    }
+    outputFile.close()
 }
 
 /**
@@ -75,8 +87,30 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val inputFile = File(inputName)
 
+    val strCounter = mutableMapOf<String, Int>()
+    for (word in substrings) strCounter[word] = 0
+
+    var startIndex: Int
+    var count: Int
+
+    for (line in inputFile.readLines()) {
+        val lLine = line.toLowerCase()
+        for (substring in substrings) {
+            val lSubstring = substring.toLowerCase()
+            startIndex = 0
+            count = lLine.indexOf(lSubstring, startIndex)
+            while (count != -1) {
+                startIndex = count + 1
+                strCounter[substring] = strCounter[substring]!!.plus(1)
+                count = lLine.indexOf(lSubstring, startIndex)
+            }
+        }
+    }
+    return strCounter
+}
 
 /**
  * Средняя (12 баллов)
@@ -246,6 +280,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
  * - **текст в полужирном начертании** -- полужирный
  * - ~~зачёркнутый текст~~ -- зачёркивание
  *
+ *
  * Следует вывести в выходной файл этот же текст в формате HTML:
  * - <i>текст в курсивном начертании</i>
  * - <b>текст в полужирном начертании</b>
@@ -404,23 +439,23 @@ fun markdownToHtml(inputName: String, outputName: String) {
  * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 111):
-   19935
-*    111
+19935
+ *    111
 --------
-   19935
+19935
 + 19935
 +19935
 --------
- 2212785
+2212785
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  * Нули в множителе обрабатывать так же, как и остальные цифры:
-  235
-*  10
+235
+ *  10
 -----
-    0
+0
 +235
 -----
- 2350
+2350
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
