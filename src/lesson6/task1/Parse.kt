@@ -171,8 +171,8 @@ fun mostExpensive(description: String): String {
     var retItem = ""
 
     for (good in goods) {
-        val goodWithoutSpace = "\\s(?=\\d+\\.?\\d*)".toRegex().replace(good, "_")
-        item = goodWithoutSpace.split("_")
+        val goodWithoutSpace = " (?=\\d+\\.?\\d*)".toRegex().replace(good, "    ")
+        item = goodWithoutSpace.split("    ")
         if (item[1].toDouble() >= maxim) {
             maxim = item[1].toDouble()
             retItem = item[0]
