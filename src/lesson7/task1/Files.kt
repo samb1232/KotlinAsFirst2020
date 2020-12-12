@@ -329,7 +329,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputFile.write("<body>")
     outputFile.write("<p>")
     for (line in inputFile.readLines()) {
-        if (line.isEmpty()) {
+        if (line.matches(Regex("\\s*"))) {
             if (isFirstEmptyLine) {
                 isFirstEmptyLine = false
                 outputFile.write("</p>")
@@ -367,10 +367,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputFile.close()
 }
 
-fun main() {
-    markdownToHtmlSimple("input/markdown_simple.md", "temp.html")
-    for (line in File("temp.html").readLines()) println(line)
-}
 /**
  * Сложная (23 балла)
  *
