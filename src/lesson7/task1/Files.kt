@@ -98,7 +98,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
 
     for (line in inputFile.readLines()) {
         val lLine = line.toLowerCase()
-        for (substring in substrings) {
+        for (substring in strCounter.keys) {
             val lSubstring = substring.toLowerCase()
             startIndex = 0
             count = lLine.indexOf(lSubstring, startIndex)
@@ -317,9 +317,33 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val inputFile = File(inputName)
+    val outputFile = File(outputName).bufferedWriter()
+
+    outputFile.write("<html>")
+    outputFile.write("<body>")
+    outputFile.write("<p>")
+    for (line in inputFile.readLines()) {
+        if (line.isEmpty()) {
+            outputFile.write("</p>")
+            outputFile.newLine()
+            outputFile.write("<p>")
+            outputFile.newLine()
+            continue
+        }
+        outputFile.write(line)
+        outputFile.newLine()
+    }
+    outputFile.write("</p>")
+    outputFile.write("</html>")
+    outputFile.write("</body>")
+    outputFile.close()
 }
 
+fun main() {
+    markdownToHtmlSimple("input/markdown_simple.md", "temp.html")
+    for (line in File("temp.html").readLines()) println(line)
+}
 /**
  * Сложная (23 балла)
  *
