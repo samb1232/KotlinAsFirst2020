@@ -358,7 +358,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                 }
             }
         }
-        outputFile.write(repLine)
+        outputFile.write(repLine.replace("\\n\\n", "</p><p>"))
         outputFile.newLine()
     }
     outputFile.write("</p>")
