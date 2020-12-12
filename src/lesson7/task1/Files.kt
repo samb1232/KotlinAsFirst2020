@@ -323,7 +323,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val translate = mapOf("~~" to ("<s>" to "</s>"), "**" to ("<b>" to "</b>"), "*" to ("<i>" to "</i>"))
     var repLine: String
     var flag: Boolean
-    var isFirstEmptyLine = true
+    var isFirstEmptyLine = false
 
     outputFile.write("<html>")
     outputFile.write("<body>")
