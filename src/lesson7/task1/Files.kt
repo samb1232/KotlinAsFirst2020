@@ -328,8 +328,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputFile.write("<html>")
     outputFile.write("<body>")
     outputFile.write("<p>")
-    for (line in inputFile.readLines()) {
-        if (line.isEmpty() || line.matches(Regex("^\\s*$"))) {
+    val b = inputFile.readLines()
+    for (line in b.indices) {
+        if ((b[line].isEmpty() || b[line].matches(Regex("^\\s*$")) && (line != 0) && (line != b.size - 1))) {
             if (isFirstEmptyLine) {
                 isFirstEmptyLine = false
                 outputFile.write("</p>")
@@ -340,7 +341,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             continue
         }
         isFirstEmptyLine = true
-        repLine = line
+        repLine = b[line]
         flag = true
         while (flag) {
             flag = false
