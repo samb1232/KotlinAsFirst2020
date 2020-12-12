@@ -329,7 +329,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputFile.write("<body>")
     outputFile.write("<p>")
     for (line in inputFile.readLines()) {
-        if (line.isEmpty() || line.matches(Regex("^\\t*\\s*?"))) {
+        if (line.isEmpty() || line.matches(Regex("^\\s*$"))) {
             if (isFirstEmptyLine) {
                 isFirstEmptyLine = false
                 outputFile.write("</p>")
