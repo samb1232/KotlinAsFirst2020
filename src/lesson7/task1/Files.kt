@@ -319,6 +319,10 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val inputFile = File(inputName)
     val outputFile = File(outputName).bufferedWriter()
+    val checker = mutableMapOf("~~" to false, "**" to false, "*" to false)
+    val translate = mapOf("~~" to ("<s>" to "</s>"), "**" to ("<b>" to "</b>"), "*" to ("<i>" to "</i>"))
+    var repLine: String
+    var flag: Boolean
 
     outputFile.write("<html>")
     outputFile.write("<body>")
@@ -331,12 +335,30 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             outputFile.newLine()
             continue
         }
-        outputFile.write(line)
+        repLine = line
+        flag = true
+        while (flag) {
+            flag = false
+            for (replacer in checker.keys) {
+                if (repLine.contains(replacer)) {
+                    flag = true
+                    if (checker[replacer]!!) {
+                        repLine = repLine.replaceFirst(replacer, translate[replacer]!!.second)
+                        checker[replacer] = false
+                    } else {
+                        repLine = repLine.replaceFirst(replacer, translate[replacer]!!.first)
+                        checker[replacer] = true
+                    }
+                    break
+                }
+            }
+        }
+        outputFile.write(repLine)
         outputFile.newLine()
     }
     outputFile.write("</p>")
-    outputFile.write("</html>")
     outputFile.write("</body>")
+    outputFile.write("</html>")
     outputFile.close()
 }
 
