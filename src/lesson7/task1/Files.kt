@@ -150,13 +150,16 @@ fun sibilants(inputName: String, outputName: String) {
 fun centerFile(inputName: String, outputName: String) {
     val inputFile = File(inputName)
     val outputFile = File(outputName).bufferedWriter()
-    val rLines = inputFile.readLines()
+    val rLines = inputFile.readLines().toMutableList()
     var maxLen = 0
+    for (i in rLines.indices) {
+        rLines[i] = rLines[i].replace(Regex("(^\\s*)|(\\s*\$)"), "")
+    }
     rLines.forEach { maxLen = max(maxLen, it.length) }
     var adder = ""
     for (line in rLines) {
         if (line.length < maxLen) {
-            while (adder.length < (maxLen - line.length * 2 + line.replace(Regex("^\\s+"), "").length) / 2) {
+            while (adder.length < (maxLen - line.length) / 2) {
                 adder += " "
             }
         }
@@ -346,9 +349,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputFile.write("<html>")
     outputFile.write("<body>")
     outputFile.write("<p>")
-    val b = inputFile.readLines()
-    for (line in b.indices) {
-        if ((b[line].isEmpty() || b[line].matches(Regex("^\\s*$")) && (line != 0) && (line != b.size - 1))) {
+    val b = inputFile.readText().trim('\n').split("\n")
+    for (line in b) {
+        if (line.isBlank()) {
             if (isFirstEmptyLine) {
                 isFirstEmptyLine = false
                 outputFile.write("</p>")
@@ -359,7 +362,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             continue
         }
         isFirstEmptyLine = true
-        repLine = b[line]
+        repLine = line
         flag = true
         while (flag) {
             flag = false
