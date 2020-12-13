@@ -349,7 +349,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputFile.write("<html>")
     outputFile.write("<body>")
     outputFile.write("<p>")
-    val b = inputFile.readText().trim('\n').split("\n")
+    val b = inputFile.readText().replace(Regex("(\\s*$)|(^\\s*(?=\\n))"), "").trim('\n').split("\n")
     for (line in b) {
         if (line.isBlank()) {
             if (isFirstEmptyLine) {
