@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.StringBuilder
 import kotlin.math.max
 
 // Урок 7: работа с файлами
@@ -65,18 +66,18 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun deleteMarked(inputName: String, outputName: String) {
     val inputFile = File(inputName)
-    val outputFile = File(outputName).bufferedWriter()
-    for (line in inputFile.readLines()) {
-        if (line.isNotEmpty()) {
-            if (line[0] !in "_") {
-                outputFile.write(line)
-                outputFile.newLine()
+    File(outputName).bufferedWriter().use {
+        for (line in inputFile.readLines()) {
+            if (line.isNotEmpty()) {
+                if (line[0] !in "_") {
+                    it.write(line)
+                    it.newLine()
+                }
+            } else {
+                it.newLine()
             }
-        } else {
-            outputFile.newLine()
         }
     }
-    outputFile.close()
 }
 
 /**
@@ -153,20 +154,20 @@ fun centerFile(inputName: String, outputName: String) {
     val rLines = inputFile.readLines().toMutableList()
     var maxLen = 0
     for (i in rLines.indices) {
-        rLines[i] = rLines[i].replace(Regex("(^\\s*)|(\\s*\$)"), "")
+        rLines[i] = rLines[i].replace(Regex("(^\\s+)|(\\s+\$)"), "")
     }
     rLines.forEach { maxLen = max(maxLen, it.length) }
-    var adder = ""
+    var adder = StringBuilder()
     for (line in rLines) {
         if (line.length < maxLen) {
             while (adder.length < (maxLen - line.length) / 2) {
-                adder += " "
+                adder.append(" ")
             }
         }
-        outputFile.write(adder)
+        outputFile.write(adder.toString())
         outputFile.write(line)
         outputFile.newLine()
-        adder = ""
+        adder = StringBuilder()
     }
     outputFile.close()
 }
@@ -339,26 +340,27 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val inputFile = File(inputName)
-    val outputFile = File(outputName).bufferedWriter()
+    val outputWriter = File(outputName).bufferedWriter()
     val checker = mutableMapOf("~~" to false, "**" to false, "*" to false)
     val translate = mapOf("~~" to ("<s>" to "</s>"), "**" to ("<b>" to "</b>"), "*" to ("<i>" to "</i>"))
     var repLine: String
     var flag: Boolean
     var isFirstEmptyLine = false
 
-    outputFile.write("<html>")
-    outputFile.write("<body>")
-    outputFile.write("<p>")
-    val b = inputFile.readText().replace(Regex("(\\s*$)|(^\\s*(?=\\n))"), "").trim('\n').split("\n")
-    for (line in b) {
+    outputWriter.write("<html>")
+    outputWriter.write("<body>")
+    outputWriter.write("<p>")
+    val lineList = inputFile.readText().replace(Regex("(\\s*$)|(^\\s*(?=\\n))"), "").trim('\n')
+        .split("\n")
+    for (line in lineList) {
         if (line.isBlank()) {
             if (isFirstEmptyLine) {
                 isFirstEmptyLine = false
-                outputFile.write("</p>")
-                outputFile.newLine()
-                outputFile.write("<p>")
+                outputWriter.write("</p>")
+                outputWriter.newLine()
+                outputWriter.write("<p>")
             }
-            outputFile.newLine()
+            outputWriter.newLine()
             continue
         }
         isFirstEmptyLine = true
@@ -369,7 +371,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             for (replacer in checker.keys) {
                 if (repLine.contains(replacer)) {
                     flag = true
-                    if (checker[replacer]!!) {
+                    if (!checker[replacer]!!) {
                         repLine = repLine.replaceFirst(replacer, translate[replacer]!!.second)
                         checker[replacer] = false
                     } else {
@@ -380,13 +382,13 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                 }
             }
         }
-        outputFile.write(repLine)
-        outputFile.newLine()
+        outputWriter.write(repLine)
+        outputWriter.newLine()
     }
-    outputFile.write("</p>")
-    outputFile.write("</body>")
-    outputFile.write("</html>")
-    outputFile.close()
+    outputWriter.write("</p>")
+    outputWriter.write("</body>")
+    outputWriter.write("</html>")
+    outputWriter.close()
 }
 
 /**
