@@ -50,14 +50,6 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 }
 
 /**
- * Пример главной функции
- */
-fun main() {
-    val x1x2 = quadraticRootProduct(1.0, 13.0, 42.0)
-    println("Root product: $x1x2")
-}
-
-/**
  * Тривиальная (3 балла).
  *
  * Задача имеет повышенную стоимость как первая в списке.
@@ -130,3 +122,144 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int = (number % 10) * 100 + ((number % 100) / 10) * 10 + (number / 100)
+
+
+
+/**
+
+ * На доске 8х8 клеток стоят фишки.
+ * Их координаты заданы строкой chipCoords вида
+ * “42 44 57 67 77 53 33 23 43 78”,
+
+ * где каждое двузначное число соответствует одной фишке,
+ * первая цифра соответствует X-координате (столбцу),
+ * вторая Y-координате (строке).
+ * Все координаты должны быть в диапазоне от 1 до 8.
+
+ *
+
+ * ------ф-
+
+ * ----ффф-
+
+ * --------
+
+ * --------
+
+ * ---ф----
+
+ * -фффф---
+
+ * ---ф----
+
+ * --------
+
+ *
+ * Найти самую длинную вертикальную последовательность фишек
+ * (в примере -- 42, 43, 44). Фишки в последовательности должны
+ * располагаться в одном столбце и идти подряд.
+ *
+ * Имя и тип результата функции предложить самостоятельно.
+
+ *
+
+ * Если входные аргументы являются некорректными,
+
+ * бросить IllegalArgumentException
+
+ *
+
+ * Кроме функции, следует написать тесты,
+
+ * подтверждающие её работоспособность.
+
+ */
+fun maxColumnRow(chipCoords: String): Set<Int> {
+    val reg = Regex("([1-8]{2}\\s)*[1-8]{2}")
+    if (!reg.matches(chipCoords)) {
+        throw IllegalArgumentException()
+    }
+    val coords = mutableListOf<Int>()
+    for (i in chipCoords.split(" ")) {
+        if (i.toInt() !in coords) {
+            coords.add(i.toInt())
+        }
+    }
+    coords.sort()
+    var localRet = mutableSetOf(coords[0])
+    var ret = setOf<Int>()
+    for (i in 1 until coords.size) {
+        if (coords[i - 1] == coords[i] - 1) {
+            localRet.add(coords[i - 1])
+            localRet.add(coords[i])
+        } else {
+            if (ret.size <= localRet.size) {
+                ret = localRet
+            }
+            localRet = mutableSetOf()
+        }
+        if (ret.size <= localRet.size) {
+            ret = localRet
+        }
+    }
+    return ret
+}
+
+/**
+
+ * В виде списка строк phones заданы номера телефонов, например:
+ * “4628091 Иванов”,
+ * “4631794 Петров”,
+ * “6409045 Волкова”,
+ * “7081356 Кошкина”
+ *
+ * Номера могут состоять только из цифр.
+ *
+ * Также задан префикс prefix номера, который начал набирать
+ * владелец телефона, например “46”.
+ *
+ * Вернуть фамилии, соответствующие этому префиксу
+ * (в данном случае — Иванов, Петров, их номера начинаются с 46).
+ *
+ * Имя и тип результата функции предложить самостоятельно.
+
+ *
+
+ * Если входные аргументы являются некорректными,
+
+ * бросить IllegalArgumentException
+
+ *
+
+ * Кроме функции, следует написать тесты,
+
+ * подтверждающие её работоспособность.
+
+ */
+
+fun phoneNumber(prefix: String, number: List<String>): Set<String> {
+    val reg = Regex("^\\d+ [А-Яа-яё]+\$")
+    for (line in number) {
+        if (!reg.matches(line)) {
+            throw IllegalArgumentException()
+        }
+    }
+    val prefix = prefix.split("").drop(1).dropLast(1)
+    val res = mutableSetOf<String>()
+    for (numbers in number) {
+        var flag = true
+        val spNums = numbers.split(" ")
+        val firstPair = spNums[0].split("").drop(1).dropLast(1)
+        for ((index, value) in prefix.withIndex()) {
+            if (value == firstPair[index]) continue
+            flag = false
+            break
+        }
+        if (flag) res.add(spNums[1])
+    }
+    return res
+}
+
+fun main() {
+    print(phoneNumber("46", listOf("4628091 Иванов", "4631794 Петров", "6409045 Волкова", "7081356 Кошкина")))
+}

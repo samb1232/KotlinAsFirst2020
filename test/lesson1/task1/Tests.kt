@@ -1,5 +1,6 @@
 package lesson1.task1
 
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -104,5 +105,17 @@ class uTests {
     fun numberRevert() {
         assertEquals(874, numberRevert(478))
         assertEquals(201, numberRevert(102))
+    }
+
+    @Test
+    fun maxColumnRow() {
+        assertEquals(setOf(42, 43, 44), maxColumnRow("42 44 57 67 77 53 33 23 43 78"))
+        assertEquals(setOf(71, 72, 73, 74, 75), maxColumnRow("42 44 57 67 73 77 53 33 23 43 78 71 72 74 75"))
+        assertEquals(
+            setOf(12),
+            maxColumnRow("12 23 14 34 45 56 67 78")
+        ) // Если максимум подряд идущих фишек одна - выводит фишку с минимальным столбцом и строкой
+        Assertions.assertThrows(IllegalArgumentException::class.java) { maxColumnRow("") }
+        Assertions.assertThrows(IllegalArgumentException::class.java) { maxColumnRow("42 44 89 57") }
     }
 }

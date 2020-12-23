@@ -441,4 +441,15 @@ Basic, Ruby, Swift.
 
         File("temp.txt").delete()
     }
+
+    @Test
+    @Tag("Individual")
+    fun ticTacToeWinChecker() {
+        assertEquals(true, ticTacToeWinChecker("input/tictactoe1.txt", "x"))
+        assertEquals(false, ticTacToeWinChecker("input/tictactoe1.txt", "o"))
+        assertEquals(true, ticTacToeWinChecker("input/tictactoe2.txt", "x"))
+        assertEquals(true, ticTacToeWinChecker("input/tictactoe2.txt", "o"))
+        assertEquals(false, ticTacToeWinChecker("input/tictactoe3.txt", "o"))
+        assertEquals(true, ticTacToeWinChecker("input/tictactoe3.txt", "x"))
+    }
 }

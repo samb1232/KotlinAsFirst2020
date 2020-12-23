@@ -558,3 +558,69 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
 
+/**Есть файл, в котором схематично изображено поле для игры в крестики-нолики на доске 15х15, а именно:
+ *- 15 строк
+ *- в каждой строке строго 15 символов
+ *- пустая клетка обозначается -, крестик х, нолик о
+ *
+
+ *Функция, которую нужно написать, принимает как параметры имя этого файла и знак (крестики или нолики).
+ * Необходимо определить, имеется ли на поле линия из 5 заданных знаков подряд (по вертикали, горизонтали или диагонали)
+ * вернуть true, если она есть, или false, если её нет.
+ *
+ * */
+
+const val BOARD_SIDE = 15
+const val CHIPS_TO_WIN = 5
+fun ticTacToeWinChecker(inputName: String, side: String): Boolean {
+    val inputFile = File(inputName)
+    val fields = mutableListOf<List<String>>()
+    for (row in inputFile.readLines()) {
+        fields.add(row.split("").drop(1).dropLast(1)) // первый и последний элементы - пустые строки
+    }
+
+    for (row in fields.indices) {
+        for (column in 0 until BOARD_SIDE - CHIPS_TO_WIN) { // Горизонталь
+            var count = 0
+            for (j in column..column + CHIPS_TO_WIN) {
+                if (fields[row][j] == side) {
+                    count++
+                } else break
+            }
+            if (count >= CHIPS_TO_WIN) return true
+        }
+        if (row >= CHIPS_TO_WIN) {
+            for (column in 0 until BOARD_SIDE - CHIPS_TO_WIN + 1) { // Диагональ вверх
+                var count = 0
+                for (j in 0 until CHIPS_TO_WIN) {
+                    if (fields[row - j][column + j] == side) {
+                        count++
+                    } else break
+                }
+                if (count >= CHIPS_TO_WIN) return true
+            }
+        }
+        if (row <= BOARD_SIDE - CHIPS_TO_WIN) {
+            for (column in 0 until BOARD_SIDE) { // Вертикаль
+                var count = 0
+                for (j in 0 until CHIPS_TO_WIN) {
+                    if (fields[row + j][column] == side) {
+                        count++
+                    } else break
+                }
+                if (count >= CHIPS_TO_WIN) return true
+            }
+
+            for (column in 0 until BOARD_SIDE - CHIPS_TO_WIN + 1) { // Диагональ вниз
+                var count = 0
+                for (j in 0 until CHIPS_TO_WIN) {
+                    if (fields[row + j][column + j] == side) {
+                        count++
+                    } else break
+                }
+                if (count >= CHIPS_TO_WIN) return true
+            }
+        }
+    }
+    return false
+}
