@@ -580,10 +580,10 @@ fun ticTacToeWinChecker(inputName: String, side: String): Boolean {
     }
 
     for (row in fields.indices) {
-        for (column in 0 until BOARD_SIDE - CHIPS_TO_WIN) { // Горизонталь
+        for (column in 0 until BOARD_SIDE - CHIPS_TO_WIN + 1) { // Горизонталь
             var count = 0
-            for (j in column..column + CHIPS_TO_WIN) {
-                if (fields[row][j] == side) {
+            for (j in 0 until CHIPS_TO_WIN) {
+                if (fields[row][column + j] == side) {
                     count++
                 } else break
             }
